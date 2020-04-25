@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,12 +20,14 @@ public class MainActivity extends AppCompatActivity {
     RadioGroup rdgGioiTinh;
     Button btnXacNhan;
     ArrayList<String> cacSoThich = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addViews();
         checkSoThich();
+        addEvent();
     }
 
     private void addViews(){
@@ -51,9 +54,96 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     cacSoThich.remove("Xem phim");
                 }
-                System.out.println(cacSoThich);
             }
         });
+
+        ngheNhac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ngheNhac.isChecked()){
+                    cacSoThich.add("Nghe nhạc");
+                }
+                else{
+                    cacSoThich.remove("Nghe nhạc");
+                }
+            }
+        });
+
+        diCafe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(diCafe.isChecked()){
+                    cacSoThich.add("Đi cà phê với bạn bè");
+                }
+                else{
+                    cacSoThich.remove("Đi cà phê với bạn bè");
+                }
+            }
+        });
+
+        oNha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(oNha.isChecked()){
+                    cacSoThich.add("Ở nhà một mình");
+                }
+                else{
+                    cacSoThich.remove("Ở nhà một mình");
+                }
+            }
+        });
+
+        nauAn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nauAn.isChecked()){
+                    cacSoThich.add("Vào bếp nấu ăn");
+                }
+                else{
+                    cacSoThich.remove("Vào bếp nấu ăn");
+                }
+            }
+        });
+    }
+
+    private void addEvent(){
+        btnXacNhan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast();
+            }
+        });
+    }
+
+    private void showToast(){
+        Toast.makeText(this, thongTinCuaBan()+"Sở thích: "+soThichCuaBan(), Toast.LENGTH_SHORT).show();
+    }
+
+    private String soThichCuaBan(){
+        String soThich ="";
+        for (String i:cacSoThich){
+            soThich +=i+", ";
+        }
+        soThich += soThichKhac.getText().toString();
+        return soThich;
+    }
+
+    private String thongTinCuaBan(){
+        String thongTin="";
+        String gioiTinh;
+        switch (rdgGioiTinh.getCheckedRadioButtonId()){
+            case R.id.rbNam:
+                gioiTinh = "Nam"; break;
+            case R.id.rbNu:
+                gioiTinh = "Nữ"; break;
+            default:
+                gioiTinh = "";
+        }
+        thongTin +="Tên: "+ tenCuaBan.getText().toString()+"\n" +
+                "Ngày sinh: "+ngaySinhCuaBan.getText().toString()+"\n" +
+                "Giới tính:"+gioiTinh +"\n";
+
+        return thongTin;
     }
 
 }
